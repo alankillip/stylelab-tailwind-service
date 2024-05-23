@@ -1,0 +1,2 @@
+import "./getTailwindUtilClasses";
+import "./default";
