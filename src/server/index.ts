@@ -1,28 +1,22 @@
-import fastify from "fastify";
-import cors from "@fastify/cors";
+import express, { Request, Response } from "express";
+import { getTailwindCSSFromUtilClasses } from "../services/tailwindService";
 
-export const server = fastify();
+const app = express();
+app.use(express.json());
+const port = process.env.PORT;
 
-server.setErrorHandler((error, request, reply) => {
-  // Log the error internally
-  console.error(error, request);
-
-  // Send a generic message to the client
-  reply.status(500).send({ error: "Internal Server Error" });
+app.get("/", (_req: Request, res: Response) => {
+  res.send("Stylelab tailwind service");
 });
 
-server.register(cors, {
-  // Options are optional
-  origin: "*", // Allow all origins
-  methods: ["GET", "POST", "PUT", "DELETE"], // Specify which methods to allow
-  allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
-  credentials: true, // Enable sending of credentials (cookies, authorization headers, etc.)
+app.post("/", async (req: Request, res: Response) => {
+  const { classes, theme, plugins } = req.body;
+  const result = await getTailwindCSSFromUtilClasses(classes, theme, plugins);
+  res.send({
+    css: result.css,
+  });
 });
 
-server.listen({ port: Number(process.env.PORT) }, (err, address) => {
-  if (err) {
-    console.error(err);
-    process.exit(1);
-  }
-  console.log(`Server listening at ${address}`);
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
 });

@@ -28,4 +28,3 @@ const getTailwindCSSFromUtilClasses = (utilsClasses = "", theme = defaultTheme, 
     });
 };
 exports.getTailwindCSSFromUtilClasses = getTailwindCSSFromUtilClasses;
-//# sourceMappingURL=tailwindService.js.map
