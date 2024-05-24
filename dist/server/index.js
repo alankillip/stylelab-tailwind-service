@@ -18,14 +18,11 @@ const tailwindService_1 = require("../services/tailwindService");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-console.log("process.env.ALLOWED_ORIGINS", process.env.ALLOWED_ORIGINS);
 const allowedOrigins = ((_a = process.env.ALLOWED_ORIGINS) === null || _a === void 0 ? void 0 : _a.split(",")) || [];
 app.use((0, cors_1.default)({
     origin: function (origin, callback) {
         if (!origin)
             return callback(null, true);
-        console.log("allowedOrigins = ", allowedOrigins);
-        console.log("origin = ", origin);
         if (allowedOrigins.indexOf(origin) === -1) {
             const msg = "The CORS policy for this site does not allow access from the specified Origin.";
             console.error(msg);
